@@ -31,6 +31,29 @@ void printMatrix(int ** matrix, int n) {
     }
 }
 
+void findPartition(int **matrix, int n) {
+	int i, j, max, len, start;
+
+	for(j = 0; j < n; j++) {
+		max = len = 1;
+
+		for(i = 1; i < n; i++) {
+			if(matrix[i][j] >= matrix[i-1][j]) {
+				len++;
+			} else {
+				len = 1;
+			}
+
+			if(max < len) {
+				max = len;
+				start = i - max + 1;
+			}
+		}
+
+		printf("(%d,%d)=%d ", start, start+max-1, max);
+	}
+}
+
 int main() {
 	
 	int **matrix, i, j, n;
@@ -40,6 +63,7 @@ int main() {
     
     matrix = generateMatrix(n);
     printMatrix(matrix, n);
+    findPartition(matrix, n);
 	
 	return 0;
 }
