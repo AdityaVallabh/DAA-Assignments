@@ -5,7 +5,9 @@
 #define MOD 100
 #define MAX(x,y) (x > y)? x : y
 
-FILE *fpPartition;
+FILE *fpPartitionAvg;
+FILE *fpPartitionBest;
+FILE *fpPartitionWorst;
 FILE *fpPathAvg;
 FILE *fpPathBest;
 FILE *fpPathLength;
@@ -131,7 +133,9 @@ void findLongestPath(int **matrix, int n) {
 
 int main() {
 
-    fpPartition = fopen("./stats/partition.dat","w");
+    fpPartitionAvg = fopen("./stats/partitionAvg.dat","w");
+    fpPartitionBest = fopen("./stats/partitionBest.dat","w");
+    fpPartitionWorst = fopen("./stats/partitionWorst.dat","w");
     fpPathAvg = fopen("./stats/pathAvg.dat","w");
     fpPathBest = fopen("./stats/pathBest.dat","w");
     fpPathLength = fopen("./stats/pathLength.dat","w");
@@ -144,12 +148,13 @@ int main() {
         steps = 0;        
         matrix = generateMatrix(n);
         findPartition(matrix, n);
-        fprintf(fpPartition, "%d\t%lld\n", n, steps);
+        fprintf(fpPartitionAvg, "%d\t%lld\n", n, steps);
 
         steps = 0;
         for(i=0; i<n; i++) for(j=0; j<n; j++) mask[i][j] = -1;
         findLongestPath(matrix, n);
         fprintf(fpPathAvg, "%d\t%lld\n", n, steps);
+
 
         FILE *tmp1 = fpPathLength;
         FILE *tmp2 = fpPathCount;
@@ -157,13 +162,25 @@ int main() {
         steps = 0;
         for(i=0; i<n; i++) for(j=0; j<n; j++) mask[i][j] = -1;
         for(i=0; i<n; i++) for(j=0; j<n; j++) matrix[i][j] = (i+j)%2;
+        findPartition(matrix, n);
+        fprintf(fpPartitionBest, "%d\t%lld\n", n, steps);
+
         findLongestPath(matrix, n);
         fprintf(fpPathBest, "%d\t%lld\n", n, steps);
         fpPathLength = tmp1;
         fpPathCount = tmp2;
+
+
+        steps = 0;
+        for(i=0; i<n; i++) for(j=0; j<n; j++) mask[i][j] = -1;
+        for(i=0; i<n; i++) for(j=0; j<n; j++) matrix[i][j] = 0;
+        findPartition(matrix, n);
+        fprintf(fpPartitionWorst, "%d\t%lld\n", n, steps);
     }
 
-    fclose(fpPartition);
+    fclose(fpPartitionAvg);
+    fclose(fpPartitionBest);
+    fclose(fpPartitionWorst);
     fclose(fpPathBest);
     fclose(fpPathAvg);
     fclose(fpPathLength);

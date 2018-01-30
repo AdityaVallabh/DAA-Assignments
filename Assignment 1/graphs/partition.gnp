@@ -1,1 +1,4 @@
-plot "./stats/partition.dat" using 1:2 title "Partition", \
+set term wxt title 'Complexity of longest sorted partition'
+plot "./stats/partitionAvg.dat" using 1:2 title "Average Case", \
+    "./stats/partitionBest.dat" using 1:2 title "Best Case", \
+    "./stats/partitionWorst.dat" using 1:2 title "Worst Case", \
