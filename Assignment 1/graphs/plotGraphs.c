@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#define MOD 100
+#define MOD 500
 #define MAX(x,y) (x > y)? x : y
 
 FILE *fpPartitionAvg;
@@ -165,6 +165,7 @@ int main() {
         findPartition(matrix, n);
         fprintf(fpPartitionBest, "%d\t%lld\n", n, steps);
 
+        steps = 0;
         findLongestPath(matrix, n);
         fprintf(fpPathBest, "%d\t%lld\n", n, steps);
         fpPathLength = tmp1;
