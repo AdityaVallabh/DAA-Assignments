@@ -1,10 +1,14 @@
 \usepackage{array}
+\usepackage{tabu}
+\usepackage{siunitx}
+\usepackage{booktabs}% for better rules in the table
 
 \begin{table}[h!]
+\fontsize{8}{11}\selectfont
 \begin{center}
-\begin{tabular}{|c|m{0.80cm}|m{0.80cm}|m{0.80cm}|m{0.80cm}|m{0.80cm}|m{0.80cm}|m{1cm}|} 
+\begin{tabu} to 0.5\textwidth {|X[c]|X[c]|X[c]|X[c]|X[c]|X[c]|X[c]|X[c]|} 
  \hline
- Size (n) & 50 & 75 & 100 & 125 & 150 & 175 & 199 \\
+ Size (n) & 50 & 75 & 100 & 125 & 150 & 175 & 200 \\
  \hline\hline
  $t_{max}$ & 49601 & 111901 & 199201 & 311501 & 448801 & 611101 & 790429 \\
  \hline
@@ -12,7 +16,7 @@
  \hline
  $t_{min}$ & 42401 & 95476 & 169801 & 265376 & 382201 & 520276 & 672820 \\
  \hline
-\end{tabular}
+\end{tabu}
 \label{partition_table}
 \caption{Part 1 - Longest sorted partition}
 \end{center}
