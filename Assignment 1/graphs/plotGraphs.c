@@ -47,13 +47,14 @@ void findPartition(int **matrix, int n) {
         steps += 2;
         steps += 6;
         for(i = max = len = len1  = len2 = 1, start = 0; i < n; i++) {
-            steps += 2 + 8 + 4 + 3;
+            steps += 2 + 8 + 4 + 1;
             len1 = (matrix[i][j] >= matrix[i-1][j])? len1 + 1 : 1;
             len2 = (matrix[i][j] <= matrix[i-1][j])? len2 + 1 : 1;
             len = MAX(len1, len2);
             if(max < len) {
                 max = len;
                 start = i - len + 1;
+                steps += 2;
             }
         }
 
