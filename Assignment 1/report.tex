@@ -92,8 +92,8 @@ Since 'sorted' could either mean ascending or descending, both the cases should 
 \begin{algorithm}
 \caption{Longest Sorted Partition algorithm}\label{alg:partition}
 \begin{algorithmic}
-\For {$j\gets 0~to~n$}
-	\For {$i\gets 1~to~n$}
+\For {$j\gets 0~to~n-1$}
+	\For {$i\gets 1~to~n-1$}
         \If {$matrix[i-1][j]\geq matrix[i][j]$}
             \State $len\gets len+1$
         \Else
@@ -165,8 +165,8 @@ Now we can use this routine to find all sorted paths.
 \caption{Driver function}\label{alg:driver}
 \begin{algorithmic}
 \small
-\For {$i\gets 0~to~n$}
-	\For {$j\gets 0~to~n$}
+\For {$i\gets 0~to~n-1$}
+	\For {$j\gets 0~to~n-1$}
         \State $len\gets recursiveFind(matrix, n, i, j, 0)$    
         \State $init[i][j]\gets len$
         \If {$len > max$}
