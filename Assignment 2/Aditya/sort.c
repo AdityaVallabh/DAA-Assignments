@@ -3,104 +3,149 @@
 #include <time.h>
 #define MOD 100
 
-void swap(int *x, int *y) {
-    int tmp = *x;
-    *x = *y;
-    *y = tmp;
-}
+void merge(int **arr, int l, int m, int r) {
+    int i, j, k;
+    int n1 = m - l + 1;
+    int n2 = r - m;
+    int L[n1][2], R[n2][2];
 
-int partition(int *arr, int *pos, int low, int high) {
-    int pivot = arr[high];
-    int i = low - 1, j;
+    for(i = 0; i < n1; i++) {
+        L[i][0] = arr[l+i][0];
+        L[i][1] = arr[l+i][1];
+    }
 
-    for(j = low; j < high; j++) {
-        if(arr[j] <= pivot) {
-            swap(&arr[i+1], &arr[j]);
-            swap(&pos[i+1], &pos[j]);
-            i += 1;
+    for(j = 0; j < n2; j++) {
+        R[j][0] = arr[m+1+j][0];
+        R[j][1] = arr[m+1+j][1];
+    }
+
+    i = j = 0;
+    k = l;
+
+    while(i < n1 && j < n2) {
+        if(L[i][1] <= R[j][1]) {
+            arr[k][0] = L[i][0];
+            arr[k][1] = L[i][1];
+            i++;
+        } else {
+            arr[k][0] = R[j][0];
+            arr[k][1] = R[j][1];
+            j++;
         }
+        k++;
     }
 
-    swap(&arr[i+1], &arr[high]);
-    swap(&pos[i+1], &pos[high]);
-    return i + 1;
-}
-
-void quickSort(int *arr, int *pos, int low, int high) {
-    if(low < high) {
-        int pivot = partition(arr, pos, low, high);
-        quickSort(arr, pos, low, pivot-1);
-        quickSort(arr, pos, pivot+1, high);
+    while(i < n1) {
+        arr[k][0] = L[i][0];
+        arr[k][1] = L[i][1];
+        i++;
+        k++;
     }
-}
 
-void printArray(int *arr, int n) {
-    int i;
-    for(i = 0; i < n; i++) {
-        printf("%02d ", arr[i]);
-    }
-    printf("\n");
-}
-
-void generateArray(int **arr, int **pos, int n) {
-    int i;
-    *arr = (int *) malloc(n * sizeof(int));
-    *pos = (int *) malloc(n * sizeof(int));
-    srand(time(0));
-    
-    for(i = 0; i < n; i++) {
-        (*arr)[i] = rand() % MOD;
-        (*pos)[i] = i;
+    while(j < n2) {
+        arr[k][0] = R[j][0];
+        arr[k][1] = R[j][1];
+        j++;
+        k++;
     }
 }
 
-int binarySearch(int *arr, int n, int key) {
-    int low = 0, high = n-1, mid;
+void mergeSort(int **arr, int l, int r) {
 
-    while(low < high) {
-        mid = (low + high) / 2;
-        if(arr[mid] == key) {
+    if(l < r) {
+        int m = (l + r) / 2;
+        mergeSort(arr, l, m);
+        mergeSort(arr, m+1, r);
+        merge(arr, l, m, r);
+    }
+}
+
+int binarySearch(int **arr, int n, int key) {
+    int low = 0, right = n-1, mid;
+
+    while(low < right) {
+        mid = (low + right) / 2;
+        if(arr[mid][1] == key) {
             return mid;
-        } else if(arr[mid] < key) {
+        } else if(arr[mid][1] < key) {
             low = mid + 1;
-        } else if(arr[mid] > key) {
-            high = mid - 1;
+        } else if(arr[mid][1] > key) {
+            right = mid - 1;
         }
     }
 
-    if(key == arr[low] || key == arr[high]) {
-        return (key == arr[low])? low : high;
+    if(key == arr[low][1] || key == arr[right][1]) {
+        return (key == arr[low][1])? low : right;
     }
 
     return -1;
 }
 
+int getStartingIdx(int **arr, int n, int k) {
+    int i;
+    for(i = k; i >= 0 && arr[i][1] == arr[k][1]; i--);
+    return i + 1;
+}
+
+void printArray(int **arr, int n, int k) {
+    int i;
+    for(i = 0; i < n; i++) {
+        printf("%02d ", arr[i][k]);
+    }
+    printf("\n");
+    
+}
+
+int ** generateArray(int n) {
+    int i;
+    int **arr = (int **) malloc(n * sizeof(int *));
+    srand(time(0));
+    
+    for(i = 0; i < n; i++) {
+        arr[i] = (int *) malloc(2 * sizeof(int));
+        arr[i][0] = i;
+        arr[i][1] = rand() % MOD;
+    }
+
+    return arr;
+}
+
 int main() {
-    int *arr, *pos, n, key, idx1, idx2;
+    int **arr, n, key, idx;
 
     printf("Enter the size of the array: ");
     scanf("%d", &n);
 
-    generateArray(&arr, &pos, n);
-    printf("Array: ");
-    printArray(arr, n);
+    arr = generateArray(n);
     printf("Index: ");
-    printArray(pos, n);
+    printArray(arr, n, 0);
+    printf("Array: ");
+    printArray(arr, n, 1);
 
     printf("\nSorted Array\n");
-    quickSort(arr, pos, 0, n-1);
-    printf("Array: ");
-    printArray(arr, n);
+    mergeSort(arr, 0, n-1);
     printf("Index: ");
-    printArray(pos, n);
+    printArray(arr, n, 0);
+    printf("Array: ");
+    printArray(arr, n, 1);
+
 
     printf("\nEnter a key to find: ");
     scanf("%d", &key);
 
-    idx2 = binarySearch(arr, n, key);
-    idx1 = (idx2 >= 0)? pos[idx2] : -1;
-    printf("\nOriginal Index: %d\n", idx1);
-    printf("New Index: %d\n", idx2);
+    idx = binarySearch(arr, n, key);
+    idx = getStartingIdx(arr, n, idx);
+
+    printf("Found %02d at: ", key);
+    for(int i = idx; i < n && arr[i][1] == key; i++) {
+        printf("%02d ", i);
+    }
+
+    printf("\nInitially at : ");
+    for(int i = idx; i < n && arr[i][1] == key; i++) {
+        printf("%02d ", arr[i][0]);
+    }
+    printf("\n");
 
     return 0;
 }
