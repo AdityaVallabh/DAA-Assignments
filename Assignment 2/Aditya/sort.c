@@ -63,7 +63,7 @@ void mergeSort(int **arr, int l, int r) {
 int binarySearch(int **arr, int n, int key) {
     int low = 0, right = n-1, mid;
 
-    while(low < right) {
+    while(low <= right) {
         mid = (low + right) / 2;
         if(arr[mid][1] == key) {
             return mid;
@@ -72,10 +72,6 @@ int binarySearch(int **arr, int n, int key) {
         } else if(arr[mid][1] > key) {
             right = mid - 1;
         }
-    }
-
-    if(key == arr[low][1] || key == arr[right][1]) {
-        return (key == arr[low][1])? low : right;
     }
 
     return -1;
