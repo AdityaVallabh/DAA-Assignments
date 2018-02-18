@@ -61,7 +61,6 @@ void mergeSort(int **arr, int l, int r) {
 }
 
 int binarySearch(int **arr, int n, int key) {
-<<<<<<< HEAD
     int l = 0, r = n-1, m;
 
     while(l <= r) {
@@ -72,18 +71,6 @@ int binarySearch(int **arr, int n, int key) {
             l = m + 1;
         } else if(arr[m][1] > key) {
             r = m - 1;
-=======
-    int low = 0, right = n-1, mid;
-
-    while(low <= right) {
-        mid = (low + right) / 2;
-        if(arr[mid][1] == key) {
-            return mid;
-        } else if(arr[mid][1] < key) {
-            low = mid + 1;
-        } else if(arr[mid][1] > key) {
-            right = mid - 1;
->>>>>>> 1f9b02de596a98479ebad6e0dd47d70adb1c5964
         }
     }
 
