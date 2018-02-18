@@ -1,0 +1,5 @@
+set xlabel "N"
+set ylabel "Steps"
+plot "./searchWorst.dat" using 1:2 title "Worst Case" with lines, \
+ "./searchBest.dat" using 1:2 title "Best Case" with lines, \
+ "./searchAverage.dat" using 1:2 title "Average Case" with lines, \

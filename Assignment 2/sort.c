@@ -61,6 +61,18 @@ void mergeSort(int **arr, int l, int r) {
 }
 
 int binarySearch(int **arr, int n, int key) {
+<<<<<<< HEAD
+    int l = 0, r = n-1, m;
+
+    while(l <= r) {
+        m = (l + r) / 2;
+        if(arr[m][1] == key) {
+            return m;
+        } else if(arr[m][1] < key) {
+            l = m + 1;
+        } else if(arr[m][1] > key) {
+            r = m - 1;
+=======
     int low = 0, right = n-1, mid;
 
     while(low <= right) {
@@ -71,6 +83,7 @@ int binarySearch(int **arr, int n, int key) {
             low = mid + 1;
         } else if(arr[mid][1] > key) {
             right = mid - 1;
+>>>>>>> 1f9b02de596a98479ebad6e0dd47d70adb1c5964
         }
     }
 
@@ -103,6 +116,7 @@ int ** generateArray(int n) {
         arr[i][1] = rand() % MOD;
     }
 
+        printf("%d ",arr[0][1]);
     return arr;
 }
 
@@ -130,18 +144,22 @@ int main() {
     scanf("%d", &key);
 
     idx = binarySearch(arr, n, key);
-    idx = getStartingIdx(arr, n, idx);
+    if(idx >= 0) {
+        idx = getStartingIdx(arr, n, idx);
 
-    printf("Found %02d at: ", key);
-    for(int i = idx; i < n && arr[i][1] == key; i++) {
-        printf("%02d ", i);
-    }
+        printf("Found %02d at: ", key);
+        for(int i = idx; i < n && arr[i][1] == key; i++) {
+            printf("%02d ", i);
+        }
 
-    printf("\nInitially at : ");
-    for(int i = idx; i < n && arr[i][1] == key; i++) {
-        printf("%02d ", arr[i][0]);
+        printf("\nInitially at : ");
+        for(int i = idx; i < n && arr[i][1] == key; i++) {
+            printf("%02d ", arr[i][0]);
+        }
+        printf("\n");
+    } else {
+        printf("%02d not found in the array!\n", key);
     }
-    printf("\n");
 
     return 0;
 }
