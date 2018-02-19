@@ -8,11 +8,11 @@ double steps = 0;
 int join(int arr[], int left[], int right[],
           int l, int m, int r)
 {
-    int i; // Used in second loop
+    int i, j; // Used in second loop
     for (i = 0; i <= m - l; i++)
         arr[i] = left[i];
  
-    for (int j = 0; j < r - m; j++)
+    for (j = 0; j < r - m; j++)
         arr[i + j] = right[j];
 }
  
@@ -21,10 +21,11 @@ int join(int arr[], int left[], int right[],
 int split(int arr[], int left[], int right[],
           int l, int m, int r)
 {
-    for (int i = 0; i <= m - l; i++)
+    int i;
+    for (i = 0; i <= m - l; i++)
         left[i] = arr[i * 2];
  
-    for (int i = 0; i < r - m; i++)
+    for (i = 0; i < r - m; i++)
         right[i] = arr[i * 2 + 1];
 }
  

@@ -3,6 +3,8 @@
 #include <time.h>
 #define MOD 100
 
+int swaps;
+
 typedef struct NODE {
     int it;
     int pos;
@@ -19,7 +21,7 @@ NODE * insertNode(NODE *head, int it, int pos) {
 
 void swap(int *arr, NODE **heads, int it, int a, int b) {
     //printf("swapping %d and %d\n", *a, *b);
-
+    swaps += 1;
     heads[a] = insertNode(heads[a], it, b);
     heads[b] = insertNode(heads[b], it, a);
 
@@ -32,41 +34,29 @@ void swap(int *arr, NODE **heads, int it, int a, int b) {
     heads[b] = head;
 }
 
-int getMinIdx(int *arr, int n, int i) {
-    int mini = i, min = arr[i];
-    mini = i;
-    min = arr[i];
-    for(int j = i+1; j < n-i; j++) {
-        if(arr[j] < min) {
-            min = arr[j];
-            mini = j;
+int getIdx(int *arr, int n, int i, int flag) {
+    int idx = i, minMax = arr[i], j;
+    idx = i;
+    minMax = arr[i];
+    for(j = i+1; j < n-i; j++) {
+        if((arr[j] < minMax && flag < 0) || (arr[j] > minMax && flag > 0)) {
+            minMax = arr[j];
+            idx = j;
         }
     }
-    return mini;
-}
-int getMaxIdx(int *arr, int n, int i) {
-    int maxi = i, max = arr[i];
-    maxi = i+1;
-    max = arr[i+1];
-    for(int j = i+2; j < n-i; j++) {
-        if(arr[j] > max) {
-            max = arr[j];
-            maxi = j;
-        }
-    }
-    return maxi;
+    return idx;
 }
 
 void sort(int *arr, NODE **heads, int n) {
     int i, j, min, mini, max, maxi;
 
     for(i = 0; i < n/2; i++) {
-        mini = getMinIdx(arr, n, i);
+        mini = getIdx(arr, n, i, -1);
         if(mini != i) {
             swap(arr, heads, i+1, mini, i);
         }
         
-        maxi = getMaxIdx(arr, n, i);
+        maxi = getIdx(arr, n, i, 1);
         if(maxi != n-i-1) {
             swap(arr, heads, i+1, maxi, n-i-1);
         }
@@ -80,6 +70,7 @@ int * generateArray(int n) {
     
     for(i = 0; i < n; i++) {
         arr[i] = rand() % MOD;
+        //scanf("%d", &arr[i]);
     }
 
     return arr;
@@ -139,18 +130,23 @@ int main() {
     scanf("%d", &n);
 
     arr = generateArray(n);
-    printArray(arr, n);
-
-    heads = initialize(n);
-    sort(arr, heads, n);
+    printf("Initial Array: ");
     printArray(arr, n);
     
+    swaps = 0;
+    heads = initialize(n);
+    sort(arr, heads, n);
+    
+    printf("\n");
     for(i = 0; i < n; i++) {
         printf("%02d: ", arr[i]);
         printList(heads[i]);
         printf("\n");
     }
 
+    printf("\nSorted Array: ");
+    printArray(arr, n);
+    printf("Swaps: %d\n", swaps);
     free(arr);
     freeHeads(heads, n);
 

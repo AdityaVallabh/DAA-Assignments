@@ -110,7 +110,8 @@ int main()
 	scanf("%d",&arr_size);
 	
 	srand(time(0));
-	for(int i=0;i<arr_size;i++)
+    int i;
+	for(i=0;i<arr_size;i++)
 	{
 		arr[i] = rand()%100;
 		indices[i] = i;

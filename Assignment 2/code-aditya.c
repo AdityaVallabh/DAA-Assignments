@@ -140,14 +140,15 @@ int main() {
     idx = binarySearch(arr, n, key);
     if(idx >= 0) {
         idx = getStartingIdx(arr, n, idx);
-
+        
+        int i;
         printf("%sFound %02d at: ", GRN, key);
-        for(int i = idx; i < n && arr[i][1] == key; i++) {
+        for(i = idx; i < n && arr[i][1] == key; i++) {
             printf("%02d ", i);
         }
 
         printf("\n%sInitially at : ", CYN);
-        for(int i = idx; i < n && arr[i][1] == key; i++) {
+        for(i = idx; i < n && arr[i][1] == key; i++) {
             printf("%02d ", arr[i][0]);
         }
         printf("\n");

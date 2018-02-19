@@ -133,13 +133,14 @@ int main() {
     if(idx >= 0) {
         idx = getStartingIdx(arr, n, idx);
 
+        int i;
         printf("Found %02d at: ", key);
-        for(int i = idx; i < n && arr[i][1] == key; i++) {
+        for(i = idx; i < n && arr[i][1] == key; i++) {
             printf("%02d ", i);
         }
 
         printf("\nInitially at : ");
-        for(int i = idx; i < n && arr[i][1] == key; i++) {
+        for(i = idx; i < n && arr[i][1] == key; i++) {
             printf("%02d ", arr[i][0]);
         }
         printf("\n");
