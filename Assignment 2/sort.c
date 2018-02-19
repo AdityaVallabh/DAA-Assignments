@@ -102,8 +102,7 @@ int ** generateArray(int n) {
         arr[i][0] = i;
         arr[i][1] = rand() % MOD;
     }
-
-        printf("%d ",arr[0][1]);
+    
     return arr;
 }
 
