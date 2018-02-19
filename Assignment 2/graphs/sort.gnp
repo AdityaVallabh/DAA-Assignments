@@ -1,5 +1,5 @@
 set xlabel "N"
 set ylabel "Steps"
-plot "./sortBest.dat" using 1:2 title "Merge Sort" with lines, \
-"./sortWorst.dat" using 1:2 title "Merge Sort"  with lines, \
-"./sortAverage.dat" using 1:2 title "Merge Sort" with lines, \
+plot "./sortAverage.dat" using 1:2 title "Merge Sort" with lines, \
+    #"./sortBest.dat" using 1:2 title "Best Case" with lines, \
+    #"./sortWorst.dat" using 1:2 title "Worst Case"  with lines

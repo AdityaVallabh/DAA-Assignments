@@ -1,0 +1,275 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%2345678901234567890123456789012345678901234567890123456789012345678901234567890
+%        1         2         3         4         5         6         7         8
+
+\documentclass[letterpaper, 11 pt, conference]{ieeeconf}  % Comment this line out
+                                                          % if you need a4paper
+%\documentclass[a4paper, 10pt, conference]{ieeeconf}      % Use this line for a4
+\usepackage{graphicx}
+\graphicspath{ {images/} }% paper
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{array}
+\usepackage{tabu}
+\usepackage{siunitx}
+\usepackage{booktabs}% for better rules in the table
+%\usepackage[ruled]{algorithm2e}
+
+\usepackage[noend]{algpseudocode}
+\makeatletter
+\def\BState{\State\hskip-\ALG@thistlm}
+\makeatother
+\IEEEoverridecommandlockouts                              % This command is only
+                                                          % needed if you want to
+                                                          % use the \thanks command
+\overrideIEEEmargins
+% See the \addtolength command later in the file to balance the column lengths
+% on the last page of the document
+
+\title{\LARGE 
+IDAA432C Assignment-2 (Group: 41)
+}
+
+\author{
+  Aditya Vallabh\\
+  \texttt{IIT2016517}
+  \and
+  Kiran Velumuri\\
+  \texttt{ITM2016009}
+  \and
+  Neil Syiemlieh\\
+  \texttt{IIT2016125}
+  \and
+  Tauhid Alam\\
+  \texttt{BIM2015003}
+}
+
+
+\begin{document}
+
+
+
+\maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{ \textbf{Question} }
+\textbf{Assume a given set of unsorted numbers. You have to perform sorting. However, print the sorted numbers along with their original (initial) locations in the given array. Locate a key in the sorted array. Do the necessary experimentation and analysis with your algorithm.}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{INTRODUCTION}
+To solve this question, we first have to generate a set of random numbers. Then, we have to perform sorting. We have used the merge sort algorithm to sort the numbers. Next, we have to print the sorted numbers along with their original locations in the array.
+
+After sorting, we have to search for a key in the sorted array. For this, we have used binary search algorithm, which on successful search, returns the position of the search key in the unsorted as well as the sorted array.
+
+Using the relevant test cases, we obtain the time complexity of the algorithms for each of best, average and worst cases. Then we plot the time versus $n$ graphs for the above mentioned cases.
+
+
+\section{ALGORITHM DESIGN}
+The merge sort algorithm divides the array into two halves until we reach the base case, that is, array of size 1 and recursively calls itself for the two halves. After that, the $merge()$ function takes the sorted sub-arrays and merges them to gradually sort the entire array.
+
+Since we are also required to display the original positions of the elements in the sorted array, we have modified the merge sort algorithm by changing the one-dimensional array input into a two-dimensional array, $arr$. $arr[\_][1]$ contains the elements of the input array while $arr[\_][0]$ contains the corresponding indices of these elements.
+
+The working of the algorithm is explained below:
+
+\begin{enumerate}
+\item Initialize the left $l$ and right $r$  extremities of the array to the values $0$ and $n-1$ respectively before calling $mergesort()$ for the first time.
+\item If the array has at least two elements, proceed. Else, stop the current recursive call.
+\item Find the middle element $m$ to divide the array into two halves.
+\item Now, call $mergesort()$ for the first half of the array.
+\item Call $mergesort()$ for the second half of the array.
+\item Merge the two halves sorted in the previous steps by calling the $merge()$ function.
+\end{enumerate}
+
+\begin{algorithm}
+\caption{Merge Sort Algorithm}\label{alg:driver}
+\begin{algorithmic}
+\State Input: $arr, l, r$
+\If {$l<r$}
+  \State $m \gets (l + r)/2$
+  \State $mergeSort(arr, l, m)$
+  \State $mereSort(arr, m+1, r)$
+  \State $merge(arr, l, m, r)$
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+The most important part of merge sort is the $merge()$ function which merges the two sorted sub-arrays which are indexed from $l$ to $m$ and $m+1$ to $r$, to form the final sorted array. The following steps are involved in the $merge()$ function:
+
+\begin{enumerate}
+\item Copy the values of elements in the two sub-arrays to the arrays $L$ and $R$ which contain $n1$ and $n2$ elements respectively. Here $n1 = m-l+1$ and $n2 = r-m$.
+\item Use index variables $i$, $j$ and $k$ to store the position of current element in the arrays $L$, $R$ and the original array $arr$, respectively.
+\item If $L[i][1]$ is less than or equal to $R[j][1]$, then copy the value of $L[i][0]$ to $arr[k][0]$ and $L[i][1]$ to $arr[k][1]$. Increment $i$ and $k$.
+\item If $L[i][1]$ is greater than $R[j][1]$, then copy the value of $R[j][0]$ to $arr[k][0]$ and $R[j][1]$ to $arr[k][1]$. Increment $j$ and $k$.
+\item Go back to step 3 while both $i < n1$ and $j < n2$
+\item Copy the remaining elements left, if any, in the two sub-arrays to $arr$ by incrementing the corresponding index variables.
+\end{enumerate}
+
+\begin{algorithm}
+\caption{Merge Algorithm}\label{alg:merge}
+\begin{algorithmic}
+\State Input: $arr, l, m, r$
+\State $n1 \gets m-l+1$
+\State $n2 \gets r-m$
+\For{$i\gets 0~to~n1-1$}
+    \State $L[i][0] \gets arr[l+i][0]$
+    \State $L[i][1] \gets arr[l+i][1]$
+\EndFor
+\For{$j\gets 0~to~n2-1$}
+    \State $R[j][0] \gets arr[m+1+j][0]$
+    \State $R[j][1] \gets arr[m+1+j][1]$
+\EndFor
+\State $i \gets 0$
+\State $j \gets 0$
+\State $k \gets l$
+\While {$i<n1~AND~j<n2$}
+    \If {$L[i][1]\leq R[j][1]$}
+        \State $arr[k][0] \gets L[i][0]$
+        \State $arr[k][1] \gets L[i][1]$
+        \State $i \gets i+1$
+    \Else
+        \State $arr[k][0] \gets R[j][0]$
+        \State $arr[k][1] \gets R[j][1]$
+        \State $j \gets j+1$
+    \EndIf
+    \State $k\gets k+1$
+\EndWhile
+\While {$i<n1$}
+    \State $arr[k][0] \gets L[i][0]$
+    \State $arr[k][1] \gets L[i][1]$
+    \State $i \gets i+1$
+    \State $k \gets k+1$
+\EndWhile
+\While {$j<n2$}
+    \State $arr[k][0] \gets R[j][0]$
+    \State $arr[k][1] \gets R[j][1]$
+    \State $j \gets j+1$
+    \State $k \gets k+1$
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Finding the given key in the sorted array}
+
+Now that the array is sorted, we have to search for a particular element in the sorted array. We have used binary search for this purpose, which works as follows:
+
+\begin{enumerate}
+\item Initialize left $l$ and right $r$ extremities of the array to $0$ and $n-1$ respectively.
+\item Find the middle element $m$ in the array which is at $(l+r)/2 th$ position - $arr[m][1]$.
+\item If the middle element is equal to the search key, return its index $m$.
+\item If the middle element is less than the search key, call binary search for the second half of the array by updating the value of $l$ to $m+1$.
+\item If the middle element is greater than the search key, call binary search for the first half of the array by updating the value of $r$ to $m - 1$;
+\item So, if the search key is not present in the array, return $-1$ indicating that it is not present in the array.
+\end{enumerate}
+
+\begin{algorithm}
+\caption{Binary Search}
+\begin{algorithmic}
+\State Input: $arr, n, key$
+\State $l \gets 0$
+\State $r \gets n-1$
+\While {$l \leq r$}
+    \State $m \gets (l+r)/2$
+    \If {$arr[m][1]==key$}
+        \State $return~m$
+    \ElsIf {$arr[m][1]<key$}
+        \State $l \gets m+1$
+    \Else
+        \State $r \gets m-1$
+    \EndIf
+\EndWhile
+\State $return -1$
+\end{algorithmic}
+\end{algorithm}
+
+\section{ANALYSIS}
+\subsection{SORTING AN ARRAY OF NUMBERS}
+Merge sort can be described by the following recurrence relation, where $T(n)$ is the time taken to perform the computation on an array of size $n$.
+\begin{align*}
+&T(n) = 2\ T(\frac{n}{2}) + O(n) \\
+&T(1) = O(1)
+\end{align*}
+Here, the $T(\frac{n}{2})$ is for the recursive step and the $O(n)$ is for combining the sorted subarrays. We can solve the recurrence relation as follows:
+\begin{align*}
+T(n) &= 2\ T(\frac{n}{2}) + n \\
+&= 2\ [2\ T(\frac{n}{4}) + \frac{n}{2}] + n \\
+&= 4\ T(\frac{n}{4}) + 2n \\
+&= 4\ [2\ T(\frac{n}{8}) + \frac{n}{4}] + 2n \\
+&\vdots \\
+T(n) &= 2^k\ T(\frac{n}{2^k}) + kn
+\end{align*}
+For\ $T(1)$:
+\begin{align*}
+&\implies \frac{n}{2^k} = 1 \\
+&\implies k = \log_2 n
+\end{align*}
+Entering the value of $k$ in the equation above, we obtain the solution:
+\begin{align*}
+T(n) = n\ (1 + \log_2 n)
+\end{align*}
+The time complexity of the solution is of the order of $n \log n$. This is the case for the best, average and worst cases, because the algorithm will never terminate permaturely no matter the inputs.
+
+\subsection{BINARY SEARCH}
+The average and worst case time taken to perform binary search on an array of size $n$ be described by:
+\begin{align*}
+&T(n) = T(\frac{n}{2}) + O(1) \\
+&T(1) = O(1)
+\end{align*}
+Here, $T(\frac{n}{2})$ is for the recursive step and O(1) is for comparing the key to the middle element. Solving the recurrence relation gives us:
+\begin{align*}
+T(n) &= T(\frac{n}{2}) + 1 \\
+&= [T(\frac{n}{4}) + 1] + 1 \\
+&= T(\frac{n}{4}) + 2 \\
+&\vdots \\
+T(n) &= T(\frac{n}{2^k}) + k
+\end{align*}
+For\ $T(1)$:
+\begin{align*}
+&\implies \frac{n}{2^k} = 1 \\
+&\implies k = \log_2 n
+\end{align*}
+Entering the value of $k$ in the equation above, we obtain the solution:
+\begin{align*}
+T(n) = \log_2 n
+\end{align*}
+The time complexity of the solution is of the order of $\log n$. This is for the worst and average cases. In the best case, the key is equal to the middle element at the very first try, giving us $\Omega(1)$.
+
+\section{EXPERIMENTAL STUDY} 
+Following are the experimental findings after profiling the data and plotting the relevant graphs using $gnuplot$.
+
+\begin{figure}
+\includegraphics[scale=0.65]{sort}
+\caption{Time Complexity for Merge Sort}
+\end{figure}
+
+\begin{enumerate}
+\item Fig. 1 gives the complexity for the Merge Sort algorithm.
+\item Fig. 2 gives the complexity for the Binary Search algorithm. It can be seen that the theoretical calculations agree with the experimental data as the average case turns out to be a logarithmic graph.
+\end{enumerate}
+
+
+
+\begin{figure}
+\includegraphics[scale=0.65]{search}
+\caption{Time Complexity for Binary Search}
+\end{figure}
+
+\section{Discussion}
+\subsection{Generation of random numbers}
+We have used the  $rand()$, $srand()$ functions and the $<time.h>$ header file to fill the array with random numbers. The $rand()$ function generates a pseudo random number, that is, the same random number is generated every time we compile and run the program. 
+So, we used the $srand()$ function to set the seed for the $rand()$ function.\\
+
+In this question, we have used  $time(0)$ as the seed. The call to $time()$ returns a $time\_t$ value which varies every time and hence the pseudo random number varies for every program call. The $time\_t$ is a variable type defined in the $<time.h>$ header which is suitable for storing the calendar time.
+
+\subsection{Divide and conquer strategy}
+Merge sort is an example of divide and conquer algorithm, which solves the problem by dividing it into several subproblems. When the solution to each of the subproblem is ready, we combine them to get the solution to the main problem.\\ \\
+Likewise in merge sort, we repeatedly divide the array until we try to perform merge sort on sub-arrays of size 1. Then, the merge function combines the sorted arrays into larger ones until the complete array is merged.
+
+\section{Conclusion}
+We have implemented the merge sort algorithm, which has $\Theta(n*log(n))$ time complexity in all the cases, to sort the given set of unsorted numbers. For finding a key in the sorted array, binary search has been used, which has a time complexity of $\Omega(1)$ in the best case and $O(log n)$ in the worst case.
+
+\end{document}

@@ -99,6 +99,19 @@ NODE** initialize(int n) {
     return heads;
 }
 
+void freeHeads(NODE **heads, int n) {
+    int i;
+    for(i = 0; i < n; i++) {
+        NODE *p, *head = heads[i];
+        while(head != NULL) {
+            p = head;
+            head = head -> next;
+            free(p);
+        }
+    }
+    free(heads);
+}
+
 void printArray(int *arr, int n) {
     int i;
 
@@ -133,10 +146,13 @@ int main() {
     printArray(arr, n);
     
     for(i = 0; i < n; i++) {
-        printf("%d: ", arr[i]);
+        printf("%02d: ", arr[i]);
         printList(heads[i]);
         printf("\n");
     }
+
+    free(arr);
+    freeHeads(heads, n);
 
     return 0;
 }

@@ -2,6 +2,14 @@
 #include <stdlib.h>
 #include <time.h>
 #define MOD 100
+#define RED   "\x1B[31m"
+#define GRN   "\x1B[32m"
+#define YEL   "\x1B[33m"
+#define BLU   "\x1B[34m"
+#define MAG   "\x1B[35m"
+#define CYN   "\x1B[36m"
+#define WHT   "\x1B[37m"
+#define RESET "\x1B[0m"
 
 void merge(int **arr, int l, int m, int r) {
     int i, j, k;
@@ -113,38 +121,38 @@ int main() {
     scanf("%d", &n);
 
     arr = generateArray(n);
-    printf("Index: ");
+    printf("%sIndex: ", BLU);
     printArray(arr, n, 0);
-    printf("Array: ");
+    printf("%sArray: ", YEL);
     printArray(arr, n, 1);
 
-    printf("\nSorted Array\n");
+    printf("\n%sSorted Array\n", RESET);
     mergeSort(arr, 0, n-1);
-    printf("Index: ");
+    printf("%sIndex: ", CYN);
     printArray(arr, n, 0);
-    printf("Array: ");
+    printf("%sArray: ", YEL);
     printArray(arr, n, 1);
 
 
-    printf("\nEnter a key to find: ");
+    printf("\n%sEnter a key to find: ", RESET);
     scanf("%d", &key);
 
     idx = binarySearch(arr, n, key);
     if(idx >= 0) {
         idx = getStartingIdx(arr, n, idx);
 
-        printf("Found %02d at: ", key);
+        printf("%sFound %02d at: ", GRN, key);
         for(int i = idx; i < n && arr[i][1] == key; i++) {
             printf("%02d ", i);
         }
 
-        printf("\nInitially at : ");
+        printf("\n%sInitially at : ", CYN);
         for(int i = idx; i < n && arr[i][1] == key; i++) {
             printf("%02d ", arr[i][0]);
         }
         printf("\n");
     } else {
-        printf("%02d not found in the array!\n", key);
+        printf("%s%02d not found in the array!\n", RED, key);
     }
 
     return 0;
