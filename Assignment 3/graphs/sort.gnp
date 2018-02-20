@@ -1,0 +1,6 @@
+set title "Sort Complexity"
+set xlabel "N"
+set ylabel "Steps"
+plot "./average.dat" using 1:2 title "Average Case" with lines, \
+    "./best.dat" using 1:2 title "Best Case" with lines, \
+    "./worst.dat" using 1:2 title "Worst Case"  with lines
