@@ -35,10 +35,11 @@ void updateLoc(struct Node* head, int a)
 
 int findSmallest(struct Node* arr, int l, int r)
 {
-	int sInd = l;
+	int sInd = l, small = arr[l].data;
 	for (int i = l+1; i <= r; i++) {
-		if (arr[i].data < arr[sInd].data) {
+		if (arr[i].data < small) {
 			sInd = i;
+			small = arr[sInd].data;
 		}
 	}
 
@@ -47,10 +48,11 @@ int findSmallest(struct Node* arr, int l, int r)
 
 int findLargest(struct Node* arr, int l, int r)
 {
-	int lInd = l;
+	int lInd = l, large = arr[l].data;
 	for (int i = l+1; i <= r; i++) {
-		if (arr[i].data > arr[lInd].data) {
+		if (arr[i].data > large) {
 			lInd = i;
+			large = arr[lInd].data;
 		}
 	}
 
@@ -101,17 +103,17 @@ void sort(struct Node* arr, int n)
 	int l = 0, r = n - 1;
 	while (l < r) {
 		int sInd = findSmallest(arr, l, r);
-		if (&arr[l] != &arr[sInd]) {
-			swap(&arr[l], &arr[sInd]);
-			updateLoc(&arr[l], l);
-			updateLoc(&arr[sInd], sInd);
+		if (l != sInd) {
+			swap(arr + l, arr + sInd);
+			updateLoc(arr + l, l);
+			updateLoc(arr + sInd, sInd);
 		}
 
 		int lInd = findLargest(arr, l, r);
-		if (&arr[r] != &arr[lInd]) {
-			swap(&arr[r], &arr[lInd]);
-			updateLoc(&arr[r], r);
-			updateLoc(&arr[lInd], lInd);
+		if (r != lInd) {
+			swap(arr + r, arr + lInd);
+			updateLoc(arr + r, r);
+			updateLoc(arr + lInd, lInd);
 		}
 
 		l++;
