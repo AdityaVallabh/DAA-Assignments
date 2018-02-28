@@ -55,7 +55,7 @@ void heapSort(int *arr, NODE **heads, int n) {
         heapify(arr, heads, n, i);
     }
 
-    for(i = n-1; i >= 0; i--) {
+    for(i = n-1; i > 0; i--) {
         swap(arr, heads, 0, i);
         heapify(arr, heads, i, 0);
     }
