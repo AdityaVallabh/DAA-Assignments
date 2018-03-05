@@ -27,10 +27,16 @@ struct Node* generateArray(int n)
 
 void updateLoc(struct Node* head, int a)
 {
+	struct Node* i = head;
+	while (i->next != NULL) {
+		i = i->next;
+	}
+
 	struct Node* newNode = (struct Node*) malloc(sizeof(struct Node));
 	newNode->data = a;
-	newNode->next = head->next;
-	head->next = newNode;
+	newNode->next = NULL;
+
+	i->next = newNode;
 }
 
 int findSmallest(struct Node* arr, int l, int r)
@@ -50,7 +56,7 @@ int findLargest(struct Node* arr, int l, int r)
 {
 	int lInd = l, large = arr[l].data;
 	for (int i = l+1; i <= r; i++) {
-		if (arr[i].data > large) {
+		if (arr[i].data >= large) {
 			lInd = i;
 			large = arr[lInd].data;
 		}
