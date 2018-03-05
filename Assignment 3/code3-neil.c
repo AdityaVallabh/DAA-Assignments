@@ -5,6 +5,7 @@
 
 struct Node {
 	int data;
+	int iter;
 	struct Node* next;
 };
 
@@ -19,13 +20,14 @@ struct Node* generateArray(int n)
 		arr[i].next = (struct Node*) malloc(sizeof(struct Node));
 
 		arr[i].next->data = i;
+		arr[i].next->iter = 0;
 		arr[i].next->next = NULL;
 	}
 
 	return arr;
 }
 
-void updateLoc(struct Node* head, int a)
+void updateLoc(struct Node* head, int a, int iter)
 {
 	struct Node* i = head;
 	while (i->next != NULL) {
@@ -34,6 +36,7 @@ void updateLoc(struct Node* head, int a)
 
 	struct Node* newNode = (struct Node*) malloc(sizeof(struct Node));
 	newNode->data = a;
+	newNode->iter = iter;
 	newNode->next = NULL;
 
 	i->next = newNode;
@@ -89,7 +92,7 @@ void printList(struct Node* head)
 {
 	struct Node* i = head;
 	while (i != NULL) {
-		printf("%02d ", i->data);
+		printf("(%02d, %02d) ", i->data, i->iter);
 		i = i->next;
 	}
 	printf("\n");
@@ -107,23 +110,25 @@ void printWithTracks(struct Node* arr, int n)
 void sort(struct Node* arr, int n)
 {
 	int l = 0, r = n - 1;
+	int i = 1;
 	while (l < r) {
 		int sInd = findSmallest(arr, l, r);
 		if (l != sInd) {
 			swap(arr + l, arr + sInd);
-			updateLoc(arr + l, l);
-			updateLoc(arr + sInd, sInd);
+			updateLoc(arr + l, l, i);
+			updateLoc(arr + sInd, sInd, i);
 		}
 
 		int lInd = findLargest(arr, l, r);
 		if (r != lInd) {
 			swap(arr + r, arr + lInd);
-			updateLoc(arr + r, r);
-			updateLoc(arr + lInd, lInd);
+			updateLoc(arr + r, r, i);
+			updateLoc(arr + lInd, lInd, i);
 		}
 
 		l++;
 		r--;
+		i++;
 	}
 }
 
