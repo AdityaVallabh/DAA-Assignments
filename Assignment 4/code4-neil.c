@@ -92,8 +92,8 @@ void max_heapify(struct Node* arr, int n, int root)
 
 	if (largest != root) {
 		swap(arr + root, arr + largest);
-		updateLoc(arr + root, root);
-		updateLoc(arr + largest, largest);
+		//updateLoc(arr + root, root);
+		//updateLoc(arr + largest, largest);
 		max_heapify(arr, n, largest);
 	}
 }
