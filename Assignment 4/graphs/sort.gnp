@@ -1,0 +1,6 @@
+set title "Time Complexity"
+set xlabel "N"
+set ylabel "Steps"
+plot "./average.dat" using 1:2 title "Average Case" smooth bezier, \
+    "./best.dat" using 1:2 title "Best Case" smooth bezier, \
+    "./worst.dat" using 1:2 title "Worst Case"  smooth bezier
