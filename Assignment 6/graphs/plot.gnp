@@ -1,0 +1,11 @@
+set title "Time Complexity"
+set xlabel "m"
+set ylabel "n"
+set zlabel "steps"
+set dgrid3d 30,30
+set ticslevel 0
+splot 'average.dat' using 1:2:3 title "Average Case" with lines, \
+    'best.dat' using 1:2:3 title "Best Case" with lines, \
+    'worst.dat' using 1:2:3 title "Worst Case" with lines
+
+NULLKrypt3rs​{st4y_humbl3_hus7l3_h4rd}​
