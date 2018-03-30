@@ -4,4 +4,6 @@ set ylabel "n"
 set zlabel "steps"
 set dgrid3d 30,30
 set ticslevel 0
+set xrange [1:100]
+set yrange [1:100]
 splot 'average.dat' using 1:2:3 title "Average Case" with lines

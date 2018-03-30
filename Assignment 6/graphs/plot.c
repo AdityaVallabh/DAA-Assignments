@@ -84,9 +84,9 @@ int main() {
     FILE *average = fopen("./average.dat", "w");
     FILE *best = fopen("./best.dat", "w");
     FILE *worst = fopen("./worst.dat", "w");
-    printf("Enter the size of the matrix: ");
-    scanf("%d%d", &i, &j);
-
+    //printf("Enter the size of the matrix: ");
+    //scanf("%d%d", &i, &j);
+    i = j = 105;
     while(i >= m) {
         n = 1;
         while(j >= n) {

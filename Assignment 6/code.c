@@ -50,12 +50,16 @@ int isEmpty(int **matrix, int a, int b, int c, int d) {
 }
 
 void find(int **matrix, int m, int n, int a, int b, int c, int d) {
+    steps += 7;
     if(a >= m || c >= m || b >= n || d >= n) {
         return;
     }
 
+    steps += 3;
     if(a == c && b == d) {
+        steps += 3;
         if(matrix[a][b] != 0) {
+            steps += 2;
             count += 1;
             printf("(%d, %d) ", a, b);
         }
@@ -63,7 +67,9 @@ void find(int **matrix, int m, int n, int a, int b, int c, int d) {
         return;
     }
 
+    steps += 1;
     if(!isEmpty(matrix, a, b, c, d)) {
+        steps += 20;
         find(matrix, m, n, a,           b,           (a+c)/2,    (b+d)/2);
         find(matrix, m, n, a,           (b+d)/2 + 1, (a+c)/2,     d);
         find(matrix, m, n, (a+c)/2 + 1, b,            c,          (b+d)/2);
@@ -85,7 +91,7 @@ int main() {
     printf("The elements are at:\n");
     find(matrix, m, n, 0, 0, m-1, n-1);
     printf("\n");
-    printf("Total elements found: %d\n", count);
+    printf("Total elements found: %d\n", steps);
 
     return 0;
 }
