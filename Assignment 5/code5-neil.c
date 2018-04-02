@@ -48,13 +48,18 @@ void traverse_inorder(int* tree, int n, int node)
 
 int main()
 {
+	char* yellow = "\033[33m";
+	char* green = "\033[32m";
+	char* white = "\033[37m";
+	char* black = "\033[30m";
+
 	int n;
-	printf("Enter the number of elements in the in-order traversal: ");
+	printf("%sEnter the number of elements in the in-order traversal: %s", white, black);
 	scanf("%d", &n);
 
 	// make random traversal arr
 	int* traversal = generate_arr(n);
-	printf("Input traversal:\n");
+	printf("%sInput traversal:\n%s", yellow, black);
 	printArray(traversal, n);
 
 	// make empty tree arr
@@ -62,14 +67,14 @@ int main()
 
 	// build tree from the traversal
 	build_tree(tree, n, 0, traversal);
-	printf("Built tree:\n");
+	printf("%sBuilt tree:\n%s", green, black);
 	printArray(tree, n);
 
 	// verify
-	printf("Comparison:\n");
-	printf("Input traversal:\t");
+	printf("%sComparison:\n%s", white, black);
+	printf("%sInput traversal:\t%s", yellow, black);
 	printArray(traversal, n);
-	printf("Built tree traversal:\t");
+	printf("%sBuilt tree traversal:\t%s", green, black);
 	traverse_inorder(tree, n, 0);
 	printf("\n");
 
