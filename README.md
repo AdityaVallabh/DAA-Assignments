@@ -10,6 +10,7 @@
 * Given a set of numbers, write an efficient Heap Sort algorithm to report the required (ascending/descending) sorted sequence. Trace the movement of every element of the Heap during the execution of your algorithm.
 * Write an efficient algorithm which, given an inorder traversal, can construct a corresponding complete binary tree. Do the necessary experimentation and analysis with your algorithm.
 * You are given a 2D array such that elements occur at only certain indices while the remaining array is empty. Write a program to find the location or indices of the elements present in the array by recursively dividing the matrix into 4 parts(quad1, quad2, quad3, quad4) discarding at each step the quads that are clean or empty.
+* There are n engineers and n jobs. Each engineer can get only one job. The respective liking for each job according to each engineer is given. Suggest an allotment such that the average liking of all the jobs is maximized.
 
 ### Report
 
