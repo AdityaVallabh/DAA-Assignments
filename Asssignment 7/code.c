@@ -1,11 +1,11 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <limits.h>
-# define MIN(x,y) (x < y)? x : y
+# define MAX(x,y) (x > y)? x : y
 
 typedef struct {
   int val;
-  int allots[20];
+  int allots[30];
 } DP;
 
 DP assign(DP *dp, int n, int **costMatrix) {
@@ -22,7 +22,7 @@ DP assign(DP *dp, int n, int **costMatrix) {
     for(j = 0; j < n; j++) {
       if(!(mask&(1<<j))) {
         int a = dp[mask|(1<<j)].val;
-        int b = dp[mask].val+costMatrix[x][j];
+        int b = dp[mask].val + costMatrix[x][j];
         
         if(a <= b) {
           dp[mask|(1<<j)].val = a;
@@ -30,8 +30,7 @@ DP assign(DP *dp, int n, int **costMatrix) {
           dp[mask|(1<<j)].val = b;
           for(int i = 0; i < n; i++) dp[mask|(1<<j)].allots[i] = dp[mask].allots[i];
           dp[mask|(1<<j)].allots[x] = j;
-        }
-        
+        }        
       }
     }
   }
@@ -50,8 +49,26 @@ int ** initializeMatrix(int n) {
   return costMatrix;
 }
 
+int convertToMin(int **costMatrix, int n) {
+  int i, j, max;
+
+  for(i = 0, max = -1; i < n; i++) {
+    for(j = 0; j< n; j++) {
+      max = MAX(max, costMatrix[i][j]);
+    }
+  }
+  
+  for(i = 0; i < n; i++) {
+    for(j = 0; j< n; j++) {
+      costMatrix[i][j] = max - costMatrix[i][j];
+    }
+  }
+
+  return max;
+}
+
 int main() {
-  int i, j, n, **costMatrix, *ans;
+  int i, j, n, max, **costMatrix, *ans;
   DP *dp, solution;
   printf("Enter number of engineers: ");
   scanf("%d", &n);
@@ -65,9 +82,11 @@ int main() {
       scanf("%d", &costMatrix[i][j]);
     }
   }
+
+  max = convertToMin(costMatrix, n);
   
   solution = assign(dp, n, costMatrix);
-  printf("%d\n", solution.val);
+  printf("%d\n", n*max - solution.val);
 
   for(i = 0 ; i < n; i++) {
     printf("Engineer %d gets Job %d\n", i, solution.allots[i]);
